@@ -78,48 +78,47 @@ public class StartGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        String selectedGame = (String) jComboBox1.getSelectedItem();
-    String selectedPlayers = (String) jComboBox2.getSelectedItem();
-    String selectedBots = (String) jComboBox3.getSelectedItem();
-    String selectedDifficulty = (String) jComboBox4.getSelectedItem();
+        String selectedGame    = (String) jComboBox1.getSelectedItem();
+        String selectedPlayers = (String) jComboBox2.getSelectedItem();
+        String selectedBots    = (String) jComboBox3.getSelectedItem();
+        String selectedDiff    = (String) jComboBox4.getSelectedItem();
 
-    // --- Validate selections ---
-    if (selectedGame.equals("-Select Game-")) return;
-    if (selectedPlayers.equals("-Number Of Players-")) return;
-    if (selectedBots.equals("-Number Of Bots-")) return;
-    if (selectedDifficulty.equals("-Bot Difficulty-")) return;
+        // Always require a game and player count
+        if (selectedGame.equals("-Select Game-"))          return;
+        if (selectedPlayers.equals("-Number of Players-")) return;
 
-    // Convert numeric selections
-    int players = Integer.parseInt(selectedPlayers);
-    int bots = Integer.parseInt(selectedBots);
-    String difficulty = selectedDifficulty;
+        int players = Integer.parseInt(selectedPlayers);
 
-    // --- Launch selected game ---
-    switch (selectedGame) {
+        switch (selectedGame) {
 
-        case "Snakes & Ladders":
-            SnakesGUI snakes = new SnakesGUI();
-            snakes.setVisible(true);
-            this.dispose();
-            break;
+            case "Blackjack":
+                // For Blackjack the dealer is always the CPU — bots/difficulty
+                // dropdowns are not used. Just pass the human player count.
+                BlackjackGUI blackjack = new BlackjackGUI(players);
+                blackjack.setVisible(true);
+                this.dispose();
+                break;
 
-        case "Ludo":
-            LudoGUI ludo = new LudoGUI();
-            ludo.setVisible(true);
-            this.dispose();
-            break;
+            case "Snakes & Ladders":
+                // Validate bots/difficulty for board games
+                if (selectedBots.equals("-Number of bots-"))   return;
+                if (selectedDiff.equals("-Bot Difficulty-"))    return;
+                SnakesGUI snakes = new SnakesGUI();
+                snakes.setVisible(true);
+                this.dispose();
+                break;
 
-        case "Blackjack":
-            BlackjackGUI blackjack = new BlackjackGUI();
-            blackjack.setVisible(true);
-            this.dispose();
-            break;
+            case "Ludo":
+                if (selectedBots.equals("-Number of bots-"))   return;
+                if (selectedDiff.equals("-Bot Difficulty-"))    return;
+                LudoGUI ludo = new LudoGUI();
+                ludo.setVisible(true);
+                this.dispose();
+                break;
 
-        default:
-            // Do nothing (should never happen if combo box has correct entries)
-            break;
-    }
+            default:
+                break;
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
